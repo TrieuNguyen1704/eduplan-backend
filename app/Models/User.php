@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'api_token', // ĐẢM BẢO PHẢI THÊM DÒNG NÀY VÀO ĐÂY
     ];
 
     /**

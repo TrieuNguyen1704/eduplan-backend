@@ -42,6 +42,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // CẤU HÌNH API GUARD DÙNG TOKEN CHUẨN LARAVEL 12
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => true,
+        ],
     ],
 
     /*
@@ -66,11 +73,6 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

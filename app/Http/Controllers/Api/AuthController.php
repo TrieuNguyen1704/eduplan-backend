@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth; // Đảm bảo có dòng này
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator; // THÊM DÒNG NÀY VÀO ĐẦU FILE
 
 class AuthController extends Controller
 {
@@ -29,7 +30,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = bin2hex(random_bytes(40));
+        $user->forceFill(['api_token' => hash('sha256', $token)])->save();
 
         return response()->json([
             'message' => 'Đăng ký tài khoản thành công!',
@@ -47,31 +49,26 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Thông tin đăng nhập không chính xác.'
-            ], 401);
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Thông tin đăng nhập không chính xác'], 401);
         }
 
-        // Xóa các token cũ nếu có để tránh rác database
-        $user->tokens()->delete();
+        $user = Auth::user();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // TẠO TOKEN MỚI THEO CHUẨN LARAVEL 12 (Xóa bỏ dòng $user->tokens()->delete() nếu có)
+        $token = bin2hex(random_bytes(40));
+        $user->forceFill(['api_token' => hash('sha256', $token)])->save();
 
         return response()->json([
-            'message' => 'Đăng nhập thành công!',
             'access_token' => $token,
-            'token_type' => 'Bearer',
             'user' => $user
-        ], 200);
+        ]);
     }
 
     // 3. ĐĂNG XUẤT (Logout)
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $request->user()->forceFill(['api_token' => null])->save();
 
         return response()->json([
             'message' => 'Đăng xuất thành công!'

@@ -122,5 +122,17 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
 
+        // THÊM ĐOẠN NÀY VÀO ĐÂY
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => true, // Bắt buộc bằng true vì mình lưu token dạng hash sha256 trong database
+        ],
+    ],
 ];
