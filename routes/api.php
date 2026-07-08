@@ -18,5 +18,5 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('subjects', SubjectController::class);
     // Route cho Workspace Môn học & Ghi chú
     Route::get('/subjects/{id}/workspace', [NoteController::class, 'getSubjectWorkspace']);
-    Route::apiResource('notes', NoteController::class)->only(['store', 'destroy']);
+    Route::apiResource('notes', NoteController::class)->only(['store', 'update', 'destroy']);
 });

@@ -9,7 +9,7 @@ class Note extends Model
 {
     use HasFactory;
 
-    // ĐÃ KHAI BÁO ĐẦY ĐỦ 100% CỘT ĐỂ KHÔNG BỊ LỖI MASS ASSIGNMENT
+    // ĐÃ KHAI BÁO ĐẦY ĐỦ 100% CỘT MỚI
     protected $fillable = [
         'user_id',
         'subject_id',
@@ -17,6 +17,12 @@ class Note extends Model
         'content',
         'type',
         'url',
+        'file_path',
+        'file_name',
+        'progress',
+        'due_date',
+        'status',
+        'label_color'
     ];
 
     public function subject()
