@@ -6,10 +6,14 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubjectController; // 1. THÊM DÒNG NÀY
 use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\CalendarController;
+use App\Http\Controllers\Api\ForgotPasswordController;
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+// API Khôi phục mật khẩu do Duy Toàn phụ trách
+Route::post('password/email', [ForgotPasswordController::class, 'sendOtp']);
+Route::post('password/reset', [ForgotPasswordController::class, 'resetPassword']);
 // Nhóm các tuyến đường bắt buộc phải có Token mới được vào
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
