@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubjectController; // 1. THÊM DÒNG NÀY
+use App\Http\Controllers\Api\NoteController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -15,4 +16,7 @@ Route::middleware('auth:api')->group(function () {
 
     // 2. THÊM DÒNG NÀY: Tự động tạo toàn bộ route CRUD cho Môn học
     Route::apiResource('subjects', SubjectController::class);
+    // Route cho Workspace Môn học & Ghi chú
+    Route::get('/subjects/{id}/workspace', [NoteController::class, 'getSubjectWorkspace']);
+    Route::apiResource('notes', NoteController::class)->only(['store', 'destroy']);
 });
