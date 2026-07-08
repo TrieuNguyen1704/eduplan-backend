@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubjectController; // 1. THÊM DÒNG NÀY
 use App\Http\Controllers\Api\NoteController;
+use App\Http\Controllers\Api\CalendarController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,4 +20,6 @@ Route::middleware('auth:api')->group(function () {
     // Route cho Workspace Môn học & Ghi chú
     Route::get('/subjects/{id}/workspace', [NoteController::class, 'getSubjectWorkspace']);
     Route::apiResource('notes', NoteController::class)->only(['store', 'update', 'destroy']);
+    // API Lịch hạn chót nhiệm vụ do Hùng Nguyễn phụ trách
+    Route::get('calendar/deadlines', [CalendarController::class, 'getDeadlines']);
 });
