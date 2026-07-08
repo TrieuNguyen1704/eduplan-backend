@@ -10,40 +10,69 @@ class SubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        // Lấy ra user đầu tiên để gắn môn học vào
-        $user = User::where('email', 'shellingofficial@gmail.com')->first();
-        if (!$user) return;
+        // Danh sách các tài khoản test sẽ được gán môn học mẫu
+        $emails = [
+            'shellingofficial@gmail.com',
+            'nin@gmail.com',
+            'hieu@gmail.com',
+            'giang@gmail.com',
+            'hung@gmail.com',
+            'toan@gmail.com',
+            'sinhvien7@gmail.com',
+            'sinhvien8@gmail.com',
+            'sinhvien9@gmail.com',
+            'sinhvien10@gmail.com',
+        ];
 
-        Subject::updateOrCreate(
-            ['code' => 'PSY101', 'user_id' => $user->id],
-            ['name' => 'Tâm lý học đại cương', 'credits' => 3, 'status' => 'active']
-        );
+        // Duyệt qua từng user và tạo các môn học mặc định
+        foreach ($emails as $email) {
 
-        Subject::updateOrCreate(
-            ['code' => 'ENG103', 'user_id' => $user->id],
-            ['name' => 'IELTS 3', 'credits' => 3, 'status' => 'active']
-        );
+            // Tìm user theo email
+            $user = User::where('email', $email)->first();
 
-        Subject::updateOrCreate(
-            ['code' => 'IT202', 'user_id' => $user->id],
-            ['name' => 'Cơ sở dữ liệu nâng cao', 'credits' => 4, 'status' => 'active']
-        );
-        
-        $user = User::where('email', 'nin@gmail.com')->first();
-        if (!$user) return;
-        Subject::updateOrCreate(
-            ['code' => 'PSY101', 'user_id' => $user->id],
-            ['name' => 'Tâm lý học đại cương', 'credits' => 3, 'status' => 'active']
-        );
+            // Nếu user chưa tồn tại thì bỏ qua
+            if (!$user) {
+                continue;
+            }
 
-        Subject::updateOrCreate(
-            ['code' => 'ENG103', 'user_id' => $user->id],
-            ['name' => 'IELTS 3', 'credits' => 3, 'status' => 'active']
-        );
+            // Môn Tâm lý học đại cương
+            Subject::updateOrCreate(
+                [
+                    'code' => 'PSY101',
+                    'user_id' => $user->id
+                ],
+                [
+                    'name' => 'Tâm lý học đại cương',
+                    'credits' => 3,
+                    'status' => 'active'
+                ]
+            );
 
-        Subject::updateOrCreate(
-            ['code' => 'IT202', 'user_id' => $user->id],
-            ['name' => 'Cơ sở dữ liệu nâng cao', 'credits' => 4, 'status' => 'active']
-        );
+            // Môn IELTS 3
+            Subject::updateOrCreate(
+                [
+                    'code' => 'ENG103',
+                    'user_id' => $user->id
+                ],
+                [
+                    'name' => 'IELTS 3',
+                    'credits' => 3,
+                    'status' => 'active'
+                ]
+            );
+
+            // Môn Cơ sở dữ liệu nâng cao
+            Subject::updateOrCreate(
+                [
+                    'code' => 'IT202',
+                    'user_id' => $user->id
+                ],
+                [
+                    'name' => 'Cơ sở dữ liệu nâng cao',
+                    'credits' => 4,
+                    'status' => 'active'
+                ]
+            );
+        }
     }
 }
