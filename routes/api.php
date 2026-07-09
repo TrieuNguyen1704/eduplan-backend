@@ -42,4 +42,8 @@ Route::middleware('auth:api')->group(function () {
     // Tính năng Pomodoro
     Route::get('/pomodoro', [App\Http\Controllers\PomodoroController::class, 'index']);
     Route::post('/pomodoro', [App\Http\Controllers\PomodoroController::class, 'store']);
+    // Routes Quản trị hệ thống (Admin Only)
+    Route::get('/admin/stats', [App\Http\Controllers\AdminController::class, 'getStats']);
+    Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'getUsers']);
+    Route::delete('/admin/users/{id}', [App\Http\Controllers\AdminController::class, 'deleteUser']);
 });
