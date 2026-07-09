@@ -39,4 +39,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Route gọi AI Gemini tự trả lời định nghĩa
     Route::post('flashcards/ai-generate', [FlashcardController::class, 'generateAiDefinition']);
+    // Tính năng Pomodoro
+    Route::get('/pomodoro', [App\Http\Controllers\PomodoroController::class, 'index']);
+    Route::post('/pomodoro', [App\Http\Controllers\PomodoroController::class, 'store']);
 });
