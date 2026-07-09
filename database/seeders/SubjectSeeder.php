@@ -3,47 +3,45 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Models\Subject;
+use App\Models\User;
 
 class SubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        // Lấy ra user đầu tiên để gắn môn học vào
         $user = User::where('email', 'shellingofficial@gmail.com')->first();
         if (!$user) return;
 
-        Subject::updateOrCreate(
-            ['code' => 'PSY101', 'user_id' => $user->id],
-            ['name' => 'Tâm lý học đại cương', 'credits' => 3, 'status' => 'active']
-        );
+        // Đã gỡ bỏ cột description để khớp 100% với cấu trúc bảng subjects thực tế
+        $subjects = [
+            [
+                'code' => 'SAD301',
+                'name' => 'Kiến trúc Phần mềm (Software Architecture Design)',
+                'credits' => 4,
+            ],
+            [
+                'code' => 'CDIO401',
+                'name' => 'Dự án CDIO - Phát triển Hệ thống EduPlan',
+                'credits' => 3,
+            ],
+            [
+                'code' => 'PSY101',
+                'name' => 'Tâm lý học Đại cương & Hành vi (Behaviorism)',
+                'credits' => 3,
+            ],
+            [
+                'code' => 'ENG202',
+                'name' => 'Tiếng Anh Giao tiếp & Từ vựng IELTS/TOEIC',
+                'credits' => 3,
+            ],
+        ];
 
-        Subject::updateOrCreate(
-            ['code' => 'ENG103', 'user_id' => $user->id],
-            ['name' => 'IELTS 3', 'credits' => 3, 'status' => 'active']
-        );
-
-        Subject::updateOrCreate(
-            ['code' => 'IT202', 'user_id' => $user->id],
-            ['name' => 'Cơ sở dữ liệu nâng cao', 'credits' => 4, 'status' => 'active']
-        );
-        
-        $user = User::where('email', 'nin@gmail.com')->first();
-        if (!$user) return;
-        Subject::updateOrCreate(
-            ['code' => 'PSY101', 'user_id' => $user->id],
-            ['name' => 'Tâm lý học đại cương', 'credits' => 3, 'status' => 'active']
-        );
-
-        Subject::updateOrCreate(
-            ['code' => 'ENG103', 'user_id' => $user->id],
-            ['name' => 'IELTS 3', 'credits' => 3, 'status' => 'active']
-        );
-
-        Subject::updateOrCreate(
-            ['code' => 'IT202', 'user_id' => $user->id],
-            ['name' => 'Cơ sở dữ liệu nâng cao', 'credits' => 4, 'status' => 'active']
-        );
+        foreach ($subjects as $sub) {
+            Subject::updateOrCreate(
+                ['code' => $sub['code'], 'user_id' => $user->id],
+                array_merge($sub, ['user_id' => $user->id])
+            );
+        }
     }
 }

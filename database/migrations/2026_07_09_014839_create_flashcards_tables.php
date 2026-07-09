@@ -31,7 +31,13 @@ return new class extends Migration
 
     public function down(): void
     {
+        // Tắt kiểm tra khóa ngoại để xóa tuyệt đối không bị lỗi ràng buộc
+        Schema::disableForeignKeyConstraints();
+
+        // Xóa bảng con trước, bảng cha sau
         Schema::dropIfExists('flashcards');
         Schema::dropIfExists('flashcard_decks');
+
+        Schema::enableForeignKeyConstraints();
     }
 };
