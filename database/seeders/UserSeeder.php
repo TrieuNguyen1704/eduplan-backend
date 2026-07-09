@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Triều Nguyên',
                 'password' => Hash::make('123456'),
+                'role' => 'admin', // <-- PHONG QUYỀN ADMIN CHO ANH NGUYÊN
                 'email_verified_at' => now(),
             ]
         );
