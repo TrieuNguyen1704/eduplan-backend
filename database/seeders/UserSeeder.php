@@ -10,20 +10,34 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Tài khoản chính của anh
+        // 1. Tài khoản chính chủ Admin / Tech Lead: Trương Công Triều Nguyên
         User::updateOrCreate(
             ['email' => 'shellingofficial@gmail.com'],
-            ['name' => 'Anh Shelling', 'password' => Hash::make('123456')]
+            [
+                'name' => 'Triều Nguyên',
+                'password' => Hash::make('123456'),
+                'email_verified_at' => now(),
+            ]
         );
 
-        // Bạn có thể bảo bạn phụ trách data seed thêm hàng loạt tài khoản test ở dưới này
-        User::updateOrCreate(
-            ['email' => 'sinhvien1@gmail.com'],
-            ['name' => 'Nguyễn Văn A', 'password' => Hash::make('123456')]
-        );
-         User::updateOrCreate(
-            ['email' => 'nin@gmail.com'],
-            ['name' => 'nin', 'password' => Hash::make('123456')]
-        );
+        // 2. Các thành viên trong nhóm Đồ án CDIO & SAD
+        $teamMembers = [
+            ['name' => 'Hương Giang', 'email' => 'huonggiang2006tgdd@gmail.com'],
+            ['name' => 'Duy Toàn', 'email' => 'dtoan2411@gmail.com'],
+            ['name' => 'Hà Ninh', 'email' => 'hathininh23@gmail.com'],
+            ['name' => 'Hiệu Nguyễn', 'email' => 'hieunguyen@gmail.com'],
+            ['name' => 'Hùng Nguyễn', 'email' => 'hungnguyen@gmail.com'],
+        ];
+
+        foreach ($teamMembers as $member) {
+            User::updateOrCreate(
+                ['email' => $member['email']],
+                [
+                    'name' => $member['name'],
+                    'password' => Hash::make('123456'),
+                    'email_verified_at' => now(),
+                ]
+            );
+        }
     }
 }
